@@ -14,6 +14,7 @@
  * 10. useAuthAction calls requireAuth() when unauthenticated
  */
 
+import { useEffect } from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
@@ -221,7 +222,9 @@ describe('AuthGateModal', () => {
 
     function Inspector() {
       const loc = window.location.href;
-      capturedLocation = loc;
+      useEffect(() => {
+        capturedLocation = loc;
+      }, [loc]);
       return <div>Login Page - {loc}</div>;
     }
 

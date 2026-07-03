@@ -7,6 +7,7 @@ import { filesHandlers } from "./files";
 import { adoptionHandlers } from "./adoption";
 import { custodyHandlers } from "./custody";
 import { authHandlers } from "./auth";
+import { listingsHandlers } from "./listings";
 
 /**
  * All MSW request handlers, combined from every domain module.

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { FormInput, PasswordInput, GoogleButton, OrDivider, SubmitButton } from "./RegisterForm";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { authService } from "../../api/authService";
 import { ApiError } from "../../lib/api-errors";
 
@@ -74,7 +74,12 @@ export function SignInForm() {
                 password: formData.password,
             });
             localStorage.setItem("auth_token", response.token);
-            navigate("/home");
+
+            const returnTo = getReturnTo(searchParams);
+            sessionStorage.removeItem("petad_return_to");
+            sessionStorage.removeItem("petad_pending_action_hint");
+
+            navigate(returnTo, { replace: true });
         } catch (err: unknown) {
             const message =
                 err instanceof ApiError && err.status === 401
