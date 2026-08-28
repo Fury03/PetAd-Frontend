@@ -80,7 +80,8 @@ describe("approvalResponseSchema", () => {
   });
 
   it("rejects a missing required field", () => {
-    const { id: _id, ...missingId } = baseApproval;
+    const missingId = { ...baseApproval };
+    Reflect.deleteProperty(missingId, "id");
     expect(approvalResponseSchema.safeParse(missingId).success).toBe(false);
   });
 });
