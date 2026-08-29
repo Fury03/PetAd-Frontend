@@ -1,0 +1,1 @@
+export { useApprovalDetail } from "./hooks";

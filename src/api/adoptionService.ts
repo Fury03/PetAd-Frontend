@@ -72,4 +72,8 @@ export const adoptionService = {
 
     return apiClient.get(endpoint);
   },
+
+  async getApprovalById(id: string): Promise<AdminApprovalQueueItem> {
+    return apiClient.get(`/admin/approvals/${id}`);
+  },
 };
