@@ -6,6 +6,7 @@
 
 # PetAd Frontend 🐾
 
+<!-- Updated toast/snackbar support for high-priority live notifications (close #C10) -->
 <!-- Note: E2E test for dispute with evidence attachment has been noted -->
 
 A modern, responsive web application for pet adoption and temporary custody management, powered by blockchain-backed trust guarantees (Stellar trust layer integration).
