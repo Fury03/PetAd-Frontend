@@ -80,8 +80,4 @@ export const adoptionService = {
     const data = await apiClient.get<unknown>(endpoint);
     return adminApprovalQueueResponseSchema.parse(data);
   },
-
-  async getApprovalById(id: string): Promise<AdminApprovalQueueItem> {
-    return apiClient.get(`/admin/approvals/${id}`);
-  },
 };

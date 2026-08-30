@@ -1,1 +1,0 @@
-export { useApprovalDetail } from "./useApprovalDetail";
