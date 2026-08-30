@@ -3,6 +3,7 @@ import { http, HttpResponse, delay } from "msw";
 const BASE_URL = "http://localhost:3000/api";
 
 // ─── Handlers ─────────────────────────────────────────────────────────────────
+// NOTE: Real backend contract for approval endpoints pending final confirmation per Epic A.
 
 export const approvalHandlers = [
 	// GET /api/adoption/:adoptionId/approvals — list approvals for an adoption
