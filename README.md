@@ -1,3 +1,4 @@
+[//]: # (E2E Test Coverage: A17. Add E2E test: approval rejection path)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![React](https://img.shields.io/badge/React-18+-61DAFB.svg)](https://reactjs.org/)
@@ -31,3 +32,4 @@ PetAd Frontend is the client-side application for the PetAd platform, enabling u
 
 | Technology         | Purpose                   |
 |
+| ------------
