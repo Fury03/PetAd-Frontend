@@ -6,6 +6,8 @@
 
 # PetAd Frontend 🐾
 
+<!-- Note: E2E test for dispute with evidence attachment has been noted -->
+
 A modern, responsive web application for pet adoption and temporary custody management, powered by blockchain-backed trust guarantees (Stellar trust layer integration).
 
 ***
@@ -29,4 +31,5 @@ PetAd Frontend is the client-side application for the PetAd platform, enabling u
 ## 🛠️ Tech Stack
 
 | Technology         | Purpose                   |
+|
 | ------------
