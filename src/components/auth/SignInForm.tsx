@@ -14,6 +14,7 @@ interface SignInFormErrors {
 }
 
 export function SignInForm() {
+  const pendingActionHint = sessionStorage.getItem("petad_pending_action_hint");
   const [formData, setFormData] = useState<SignInFormData>({
     email: "",
     password: "",
@@ -81,6 +82,13 @@ export function SignInForm() {
       </h2>
 
       <div className="flex flex-col gap-5">
+        {pendingActionHint && (
+          <div className="rounded-xl border border-orange-200 bg-orange-50 p-3 text-sm text-orange-800">
+            <span className="font-semibold">Sign in to continue:</span>{" "}
+            {pendingActionHint}
+          </div>
+        )}
+
         <GoogleButton
           label="Continue with Google"
           onClick={handleGoogleSignIn}

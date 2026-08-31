@@ -31,8 +31,6 @@ export function EscrowFundedBanner({
   txHash,
   escrowId,
 }: EscrowFundedBannerProps) {
-  const [dismissed, setDismissed] = useState(false);
-
   // Prefer the dedicated adoptionId key; fall back to the legacy escrowId key.
   const adoptionKey = adoptionId
     ? `escrow-banner-dismissed-${adoptionId}`
@@ -40,6 +38,9 @@ export function EscrowFundedBanner({
   const legacyKey = escrowId ? getEscrowFundedBannerStorageKey(escrowId) : null;
   // At least one key must exist for dismissal to work.
   const primaryKey = adoptionKey ?? legacyKey ?? "";
+  const [dismissed, setDismissed] = useState(
+    () => Boolean(primaryKey && sessionStorage.getItem(primaryKey) === "true"),
+  );
 
   if (dismissed) return null;
 
