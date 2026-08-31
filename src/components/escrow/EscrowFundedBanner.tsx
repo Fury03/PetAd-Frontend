@@ -38,9 +38,12 @@ export function EscrowFundedBanner({
   const legacyKey = escrowId ? getEscrowFundedBannerStorageKey(escrowId) : null;
   // At least one key must exist for dismissal to work.
   const primaryKey = adoptionKey ?? legacyKey ?? "";
-  const [dismissed, setDismissed] = useState(
-    () => Boolean(primaryKey && sessionStorage.getItem(primaryKey) === "true"),
-  );
+
+  const [dismissed, setDismissed] = useState(() => {
+    if (adoptionKey && sessionStorage.getItem(adoptionKey) === "true") return true;
+    if (legacyKey && sessionStorage.getItem(legacyKey) === "true") return true;
+    return false;
+  });
 
   if (dismissed) return null;
 
