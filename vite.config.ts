@@ -15,7 +15,6 @@ export default defineConfig({
       protocol: "ws",
     },
   },
-  plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {
       output: {
