@@ -6,8 +6,27 @@ import tailwindcss from '@tailwindcss/vite'
 export default defineConfig({
   plugins: [react(), tailwindcss()],
   server: {
+    host: "localhost",
     port: 4321,
     strictPort: true,
+    hmr: {
+      host: "localhost",
+      port: 4321,
+      protocol: "ws",
+    },
+  },
+  plugins: [react(), tailwindcss()],
+  build: {
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'react-vendor': ['react', 'react-dom', 'react-router-dom'],
+          'query-vendor': ['@tanstack/react-query'],
+          'ui-vendor': ['lucide-react', 'react-hot-toast'],
+          'msw-vendor': ['msw']
+        }
+      }
+    }
   },
   test: {
     globals: true,

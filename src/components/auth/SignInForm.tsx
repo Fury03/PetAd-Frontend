@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { FormInput, PasswordInput, GoogleButton, OrDivider, SubmitButton } from "./RegisterForm";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link, useSearchParams } from "react-router-dom";
+import { authService } from "../../api/authService";
+import { ApiError } from "../../lib/api-errors";
 
 interface SignInFormData {
   email: string;
@@ -11,6 +13,13 @@ interface SignInFormErrors {
   email?: string;
   password?: string;
   submit?: string;
+}
+
+/** Read the returnTo target from the query-string, then sessionStorage fallback. */
+function getReturnTo(searchParams: URLSearchParams): string {
+    const fromQuery = searchParams.get("returnTo");
+    if (fromQuery) return decodeURIComponent(fromQuery);
+    return sessionStorage.getItem("petad_return_to") ?? "/home";
 }
 
 export function SignInForm() {

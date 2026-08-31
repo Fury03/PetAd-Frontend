@@ -1,29 +1,34 @@
 import { http, HttpResponse, delay } from "msw";
-import type {
-  AdoptionDetails,
-} from "../../types/adoption";
+import type { AdoptionDetails } from "../../types/adoption";
 
-const MOCK_TIMELINE: Record<string, unknown>[] = [
+const MOCK_TIMELINE = [
   {
     id: "1",
     adoptionId: "adoption-1",
     sdkEvent: "event1",
     message: "Initial adoption request",
-    fromStatus: undefined,
+    fromStatus: null,
     toStatus: "ESCROW_CREATED",
     actor: "System",
     timestamp: "2026-03-25T10:00:00Z",
     reason: "Initial adoption request",
   },
   {
+    id: "2",
+    adoptionId: "adoption-1",
+    sdkEvent: "event2",
+    message: "Escrow funded by adopter",
     fromStatus: "ESCROW_CREATED",
     toStatus: "ESCROW_FUNDED",
     actor: "Adopter",
     timestamp: "2026-03-25T11:30:00Z",
     sdkTxHash: "0x1234...5678",
-    stellarExplorerUrl: "https://stellar.expert/explorer/public/tx/1234",
   },
   {
+    id: "3",
+    adoptionId: "adoption-1",
+    sdkEvent: "event3",
+    message: "Settlement triggered automatically",
     fromStatus: "ESCROW_FUNDED",
     toStatus: "SETTLEMENT_TRIGGERED",
     actor: "System",
@@ -42,11 +47,11 @@ const MOCK_ADOPTION_DETAILS: AdoptionDetails = {
 };
 
 export const adoptionHandlers = [
-  http.get("/api/adoption/:id/timeline", async () => {
+  http.get("*/api/adoption/:id/timeline", async () => {
     await delay(100);
     return HttpResponse.json(MOCK_TIMELINE);
   }),
-  http.get("/api/adoption/:id", async ({ params }) => {
+  http.get("*/api/adoption/:id", async ({ params }) => {
     await delay(100);
     const { id } = params;
 
@@ -56,16 +61,17 @@ export const adoptionHandlers = [
 
     return HttpResponse.json({ error: "Adoption not found" }, { status: 404 });
   }),
-
-  // POST /api/adoption/:id/complete — trigger settlement completion
-  http.post("/api/adoption/:id/complete", async ({ params }) => {
+  http.post("*/api/adoption/:id/complete", async ({ params }) => {
     await delay(100);
     const { id } = params;
-
     if (id === "fail") {
-      return HttpResponse.json({ error: "Failed to complete adoption" }, { status: 500 });
+      return new HttpResponse(null, { status: 500 });
     }
-
     return new HttpResponse(null, { status: 204 });
   }),
+  http.get("*/api/adoption/:id/approvals", async () => {
+    await delay(100);
+    return HttpResponse.json([]);
+  }),
+
 ];

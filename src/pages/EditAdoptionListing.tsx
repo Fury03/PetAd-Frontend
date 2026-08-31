@@ -1,4 +1,4 @@
-import { useState, type ChangeEvent, } from "react";
+import { useState, type ChangeEvent } from "react";
 import { Upload } from "lucide-react";
 export default function EditAdoptionListing() {
   const [isLoading, setIsLoading] = useState(false);
@@ -239,11 +239,12 @@ export default function EditAdoptionListing() {
   );
 }
 
+// Internal Helpers
 interface InputFieldProps {
   label: string;
   name: string;
   value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => void;
   error?: string;
 }
 

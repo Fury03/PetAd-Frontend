@@ -11,10 +11,6 @@ import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 
 import { SettlementFailureState } from "../SettlementFailureState";
 
-// ---------------------------------------------------------------------------
-// Mocks
-// ---------------------------------------------------------------------------
-
 vi.mock("../../../hooks/useRoleGuard", () => ({
   useRoleGuard: vi.fn(),
 }));
@@ -30,10 +26,6 @@ import { escrowService } from "../../../api/escrowService";
 
 const mockUseRoleGuard = vi.mocked(useRoleGuard);
 const mockRetrySettlement = vi.mocked(escrowService.retrySettlement);
-
-// ---------------------------------------------------------------------------
-// Helpers
-// ---------------------------------------------------------------------------
 
 function createWrapper() {
   const queryClient = new QueryClient({
@@ -58,28 +50,23 @@ function renderComponent(props = DEFAULT_PROPS) {
   });
 }
 
-// ---------------------------------------------------------------------------
-// Tests
-// ---------------------------------------------------------------------------
-
 describe("SettlementFailureState", () => {
   beforeEach(() => {
     vi.clearAllMocks();
-    // Default: non-admin user
     mockUseRoleGuard.mockReturnValue({
-      role: "user",
+      role: "USER",
       isAdmin: false,
+      isShelter: false,
       isUser: true,
+      canApprove: false,
+      hasAccess: vi.fn().mockReturnValue(false),
     });
-    // Default: settlement resolves successfully
     mockRetrySettlement.mockResolvedValue(undefined);
   });
 
   afterEach(() => {
     vi.useRealTimers();
   });
-
-  // ── Renders correctly ────────────────────────────────────────────────────
 
   it("renders the failure reason from the API", () => {
     renderComponent();
@@ -93,13 +80,14 @@ describe("SettlementFailureState", () => {
     expect(screen.getByText("Settlement Failed")).toBeTruthy();
   });
 
-  // ── Admin guard ──────────────────────────────────────────────────────────
-
   it("hides the retry button for non-admin users", () => {
     mockUseRoleGuard.mockReturnValue({
-      role: "user",
+      role: "USER",
       isAdmin: false,
+      isShelter: false,
       isUser: true,
+      canApprove: false,
+      hasAccess: vi.fn().mockReturnValue(false),
     });
     renderComponent();
     expect(screen.queryByTestId("retry-settlement-btn")).toBeNull();
@@ -107,43 +95,46 @@ describe("SettlementFailureState", () => {
 
   it("shows the retry button for admin users", () => {
     mockUseRoleGuard.mockReturnValue({
-      role: "admin",
+      role: "ADMIN",
       isAdmin: true,
+      isShelter: false,
       isUser: false,
+      canApprove: true,
+      hasAccess: vi.fn().mockReturnValue(true),
     });
     renderComponent();
     expect(screen.getByTestId("retry-settlement-btn")).toBeTruthy();
   });
 
-  // ── Confirmation modal ───────────────────────────────────────────────────
-
   it("shows the confirmation modal when admin clicks retry, before mutation fires", () => {
     mockUseRoleGuard.mockReturnValue({
-      role: "admin",
+      role: "ADMIN",
       isAdmin: true,
+      isShelter: false,
       isUser: false,
+      canApprove: true,
+      hasAccess: vi.fn().mockReturnValue(true),
     });
 
     renderComponent();
 
-    // Modal should not be visible yet
     expect(screen.queryByRole("dialog")).toBeNull();
-    // Mutation should not have been called
     expect(mockRetrySettlement).not.toHaveBeenCalled();
 
     fireEvent.click(screen.getByTestId("retry-settlement-btn"));
 
-    // Modal should now be visible
     expect(screen.getByRole("dialog")).toBeTruthy();
-    // Mutation still not called — waiting for confirmation
     expect(mockRetrySettlement).not.toHaveBeenCalled();
   });
 
   it("closes the confirmation modal when cancel is clicked without calling mutation", () => {
     mockUseRoleGuard.mockReturnValue({
-      role: "admin",
+      role: "ADMIN",
       isAdmin: true,
+      isShelter: false,
       isUser: false,
+      canApprove: true,
+      hasAccess: vi.fn().mockReturnValue(true),
     });
 
     renderComponent();
@@ -157,13 +148,14 @@ describe("SettlementFailureState", () => {
     expect(mockRetrySettlement).not.toHaveBeenCalled();
   });
 
-  // ── Mutation call ────────────────────────────────────────────────────────
-
   it("calls retrySettlement with the correct escrowId after confirming", async () => {
     mockUseRoleGuard.mockReturnValue({
-      role: "admin",
+      role: "ADMIN",
       isAdmin: true,
+      isShelter: false,
       isUser: false,
+      canApprove: true,
+      hasAccess: vi.fn().mockReturnValue(true),
     });
 
     renderComponent();
@@ -176,13 +168,14 @@ describe("SettlementFailureState", () => {
     });
   });
 
-  // ── Spinner while pending ────────────────────────────────────────────────
-
   it("shows a spinner on the confirm button while the retry is in progress", async () => {
     mockUseRoleGuard.mockReturnValue({
-      role: "admin",
+      role: "ADMIN",
       isAdmin: true,
+      isShelter: false,
       isUser: false,
+      canApprove: true,
+      hasAccess: vi.fn().mockReturnValue(true),
     });
 
     let resolveFn!: () => void;
@@ -203,19 +196,19 @@ describe("SettlementFailureState", () => {
       expect((btn as HTMLButtonElement).disabled).toBe(true);
     });
 
-    // Cleanup pending promise
     await act(async () => {
       resolveFn();
     });
   });
 
-  // ── Success toast ────────────────────────────────────────────────────────
-
   it("shows a success toast after a successful retry", async () => {
     mockUseRoleGuard.mockReturnValue({
-      role: "admin",
+      role: "ADMIN",
       isAdmin: true,
+      isShelter: false,
       isUser: false,
+      canApprove: true,
+      hasAccess: vi.fn().mockReturnValue(true),
     });
     mockRetrySettlement.mockResolvedValue(undefined);
 
@@ -233,13 +226,14 @@ describe("SettlementFailureState", () => {
     );
   });
 
-  // ── Error toast ──────────────────────────────────────────────────────────
-
   it("shows an error toast when the retry fails", async () => {
     mockUseRoleGuard.mockReturnValue({
-      role: "admin",
+      role: "ADMIN",
       isAdmin: true,
+      isShelter: false,
       isUser: false,
+      canApprove: true,
+      hasAccess: vi.fn().mockReturnValue(true),
     });
     mockRetrySettlement.mockRejectedValue(
       new Error("Network error, please try again."),
@@ -259,13 +253,14 @@ describe("SettlementFailureState", () => {
     );
   });
 
-  // ── onRetry callback ─────────────────────────────────────────────────────
-
   it("calls the onRetry prop after a successful retry", async () => {
     mockUseRoleGuard.mockReturnValue({
-      role: "admin",
+      role: "ADMIN",
       isAdmin: true,
+      isShelter: false,
       isUser: false,
+      canApprove: true,
+      hasAccess: vi.fn().mockReturnValue(true),
     });
     mockRetrySettlement.mockResolvedValue(undefined);
     const onRetry = vi.fn();

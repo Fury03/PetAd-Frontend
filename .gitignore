@@ -12,6 +12,9 @@ dist
 dist-ssr
 *.locals
 
+# Local issue notes (not shipped)
+issues/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
@@ -22,3 +25,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Playwright artifacts
+playwright-report/
+test-results/
+.playwright/
