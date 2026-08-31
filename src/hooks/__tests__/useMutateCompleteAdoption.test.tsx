@@ -59,19 +59,13 @@ describe("useMutateCompleteAdoption", () => {
         result.current.mutateCompleteAdoption();
       });
 
-      // Use a longer timeout for waitFor since the mock slows things down
-      await waitFor(
-        () => {
-          expect(result.current.isPending).toBe(true);
-          expect(result.current.isError).toBe(false);
-        },
-        { timeout: 2000 }
-      );
+      await waitFor(() => {
+        expect(result.current.isPending).toBe(true);
+        expect(result.current.isError).toBe(false);
+      });
 
       resolveRequest();
-      await waitFor(() => expect(result.current.isPending).toBe(false), {
-        timeout: 2000,
-      });
+      await waitFor(() => expect(result.current.isPending).toBe(false));
     });
   });
 
@@ -163,21 +157,16 @@ describe("useMutateCompleteAdoption", () => {
       });
 
       // While in-flight: cache should reflect optimistic SETTLEMENT_TRIGGERED status
-      await waitFor(
-        () => {
-          const optimisticData = queryClient.getQueryData<AdoptionDetails>([
-            "adoption",
-            "adoption-1",
-          ]);
-          expect(optimisticData?.status).toBe("SETTLEMENT_TRIGGERED");
-        },
-        { timeout: 2000 }
-      );
+      await waitFor(() => {
+        const optimisticData = queryClient.getQueryData<AdoptionDetails>([
+          "adoption",
+          "adoption-1",
+        ]);
+        expect(optimisticData?.status).toBe("SETTLEMENT_TRIGGERED");
+      });
 
       resolveRequest();
-      await waitFor(() => expect(result.current.isPending).toBe(false), {
-        timeout: 2000,
-      });
+      await waitFor(() => expect(result.current.isPending).toBe(false));
     });
   });
 

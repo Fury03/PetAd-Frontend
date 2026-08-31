@@ -1,10 +1,9 @@
-import { defineConfig, type UserConfig } from 'vite'
-/// <reference types="vitest" />
-import react from '@vitejs/plugin-react'
-import tailwindcss from '@tailwindcss/vite'
+import { defineConfig } from "vitest/config";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "@tailwindcss/vite";
 
+// https://vite.dev/config/
 export default defineConfig({
-  plugins: [react(), tailwindcss()],
   server: {
     host: "localhost",
     port: 4321,
@@ -15,6 +14,7 @@ export default defineConfig({
       protocol: "ws",
     },
   },
+  plugins: [react(), tailwindcss()],
   build: {
     rollupOptions: {
       output: {
@@ -28,9 +28,9 @@ export default defineConfig({
     }
   },
   test: {
+    environment: "jsdom",
     globals: true,
-    environment: 'jsdom',
-    setupFiles: './vitest.setup.ts',
-    include: ['src/**/*.{test,spec}.{ts,tsx}'],
+    setupFiles: ["./src/test/setup.ts"],
+    exclude: ["e2e/**", "node_modules/**", "dist/**"],
   },
-} as UserConfig);
+});
