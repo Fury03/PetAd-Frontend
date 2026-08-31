@@ -16,6 +16,8 @@ A modern, responsive web application for pet adoption and temporary custody mana
 
 PetAd Frontend is the client-side application for the PetAd platform, enabling users to browse pets, initiate adoption processes, and manage temporary custody arrangements. The application communicates exclusively with the PetAd backend API and does not directly interact with blockchain infrastructure.
 
+Note: Includes REST fallback and backfill paths for notifications via `notificationService.ts` to support offline usage and initial loading.
+
 ***
 
 ## ✨ Features
@@ -32,5 +34,6 @@ PetAd Frontend is the client-side application for the PetAd platform, enabling u
 ## 🛠️ Tech Stack
 
 | Technology         | Purpose                   |
+| ------------
 |
 | ------------
