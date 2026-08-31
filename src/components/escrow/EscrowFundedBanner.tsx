@@ -31,6 +31,8 @@ export function EscrowFundedBanner({
   txHash,
   escrowId,
 }: EscrowFundedBannerProps) {
+  const [dismissed, setDismissed] = useState(false);
+
   // Prefer the dedicated adoptionId key; fall back to the legacy escrowId key.
   const adoptionKey = adoptionId
     ? `escrow-banner-dismissed-${adoptionId}`

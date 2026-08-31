@@ -1,5 +1,5 @@
-import { apiClient } from "../lib/api-client";
 import type { SettlementSummary } from "../types/escrow";
+import { ApiError } from "../lib/api-errors";
 
 
 /**

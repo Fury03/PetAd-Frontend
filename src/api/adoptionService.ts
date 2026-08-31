@@ -2,7 +2,7 @@ import { apiClient } from "../lib/api-client";
 import {
   adminApprovalQueueResponseSchema,
   approvalResponseSchema,
-  type AdminApprovalQueueResponse,
+  type AdminApprovalQueueItem,
   type ApprovalResponse,
 } from "../features/approval/schemas/approvalSchemas";
 import type { AdoptionTimelineEntry, AdoptionDetails } from "../types/adoption";
@@ -67,7 +67,7 @@ export const adoptionService = {
 
   async getAdminApprovalQueue(
     filters: AdminApprovalFilters
-  ): Promise<{ items: AdminApprovalQueueItem[]; nextCursor?: string; total?: number; page?: number; pageSize?: number }> {
+  ): Promise<{ items: AdminApprovalQueueItem[]; nextCursor?: string | null; total?: number; page?: number; pageSize?: number }> {
     const params = new URLSearchParams();
     if (filters.shelter) params.append("shelter", filters.shelter);
     if (filters.status) params.append("status", filters.status);
