@@ -20,6 +20,7 @@ import ModalPreview from "./pages/ModalPreview";
 import StatusPollingDemo from "./pages/StatusPollingDemo";
 import CustodyTimelinePage from "./pages/CustodyTimelinePage";
 import AdminDisputeListPage from "./pages/AdminDisputeListPage";
+import AdminApprovalQueuePage from "./pages/AdminApprovalQueuePage";
 
 function App() {
 
@@ -49,6 +50,7 @@ function App() {
 
         {/* Admin Routes */}
         <Route path="/admin/disputes" element={<AdminDisputeListPage />} />
+        <Route path="/admin/approvals" element={<AdminApprovalQueuePage />} />
 
         {/* Preview Routes */}
         <Route path="/preview-modal" element={<ModalPreview />} />

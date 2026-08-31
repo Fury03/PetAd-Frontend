@@ -36,6 +36,10 @@ export const approvalHandlers = [
 		const url = new URL(request.url);
 		const overdueOnly = url.searchParams.get("overdueOnly") === "true";
 		const shelter = url.searchParams.get("shelter");
+		const page = Number(url.searchParams.get("page") ?? "1");
+		const pageSize = Number(url.searchParams.get("pageSize") ?? "12");
+		const safePage = Number.isFinite(page) && page > 0 ? page : 1;
+		const safePageSize = Number.isFinite(pageSize) && pageSize > 0 ? pageSize : 12;
 		
 		let items = [
 			{
@@ -84,12 +88,17 @@ export const approvalHandlers = [
 			items = items.filter(item => item.isOverdue);
 		}
 		if (shelter && shelter !== "") {
-			// Simulating filtering
 			items = items.filter(item => item.shelter.toLowerCase().includes(shelter.toLowerCase().replace('-', ' ')));
 		}
 
+		const startIndex = (safePage - 1) * safePageSize;
+		const pagedItems = items.slice(startIndex, startIndex + safePageSize);
+
 		return HttpResponse.json({
-			items,
+			items: pagedItems,
+			total: items.length,
+			page: safePage,
+			pageSize: safePageSize,
 			nextCursor: null
 		});
 	}),
