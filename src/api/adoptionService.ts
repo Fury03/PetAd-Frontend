@@ -2,7 +2,7 @@ import { apiClient } from "../lib/api-client";
 import {
   adminApprovalQueueResponseSchema,
   approvalResponseSchema,
-  type AdminApprovalQueueResponse,
+  type AdminApprovalQueueItem,
   type ApprovalResponse,
 } from "../features/approval/schemas/approvalSchemas";
 import type { AdoptionTimelineEntry, AdoptionDetails } from "../types/adoption";
@@ -24,6 +24,8 @@ export interface AdminApprovalFilters {
   status?: string;
   overdueOnly?: boolean;
   cursor?: string;
+  page?: number;
+  pageSize?: number;
 }
 
 export const adoptionService = {
@@ -65,17 +67,17 @@ export const adoptionService = {
 
   async getAdminApprovalQueue(
     filters: AdminApprovalFilters
-  ): Promise<AdminApprovalQueueResponse> {
+  ): Promise<{ items: AdminApprovalQueueItem[]; nextCursor?: string | null; total?: number; page?: number; pageSize?: number }> {
     const params = new URLSearchParams();
     if (filters.shelter) params.append("shelter", filters.shelter);
     if (filters.status) params.append("status", filters.status);
     if (filters.overdueOnly) params.append("overdueOnly", "true");
     if (filters.cursor) params.append("cursor", filters.cursor);
+    if (filters.page) params.append("page", String(filters.page));
+    if (filters.pageSize) params.append("pageSize", String(filters.pageSize));
 
     const queryString = params.toString();
-    const endpoint = `/admin/approvals${
-      queryString ? `?${queryString}` : ""
-    }`;
+    const endpoint = `/admin/approvals${queryString ? `?${queryString}` : ""}`;
 
     const data = await apiClient.get<unknown>(endpoint);
     return adminApprovalQueueResponseSchema.parse(data);
