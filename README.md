@@ -6,6 +6,7 @@
 
 # PetAd Frontend 🐾
 
+<!-- Note: A13. Add sort-by-date and sort-by-status controls to Approval list documentation reference placeholder -->
 <!-- Updated toast/snackbar support for high-priority live notifications (close #C10) -->
 <!-- Note: E2E test for dispute with evidence attachment has been noted -->
 
@@ -35,6 +36,7 @@ Note: Includes REST fallback and backfill paths for notifications via `notificat
 ## 🛠️ Tech Stack
 
 | Technology         | Purpose                   |
+| ------------
 | ------------
 |
 | ------------
