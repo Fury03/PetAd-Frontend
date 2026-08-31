@@ -211,7 +211,7 @@ export default function AdminApprovalQueuePage() {
                 </div>
               )}
 
-              <ApprovalPagination page={page} pageSize={PAGE_SIZE} onPageChange={handlePageChange} />
+              <ApprovalPagination page={page} onPageChange={handlePageChange} />
             </>
           )}
         </div>

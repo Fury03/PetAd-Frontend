@@ -1,12 +1,10 @@
 interface ApprovalPaginationProps {
   page: number;
-  pageSize: number;
   onPageChange: (nextPage: number) => void;
 }
 
-export function ApprovalPagination({ page, pageSize, onPageChange }: ApprovalPaginationProps) {
+export function ApprovalPagination({ page, onPageChange }: ApprovalPaginationProps) {
   const currentPage = Number.isFinite(page) && page > 0 ? page : 1;
-  const safePageSize = Number.isFinite(pageSize) && pageSize > 0 ? pageSize : 12;
 
   return (
     <div className="flex items-center justify-center gap-3 border-t border-gray-100 bg-gray-50 px-6 py-4">
