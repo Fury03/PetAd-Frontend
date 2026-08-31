@@ -28,7 +28,7 @@ jobs:
 
       # 4️⃣ Install dependencies
       - name: Install dependencies
-        run: npm install
+        run: npm install --maxsockets 1 --retry 3
 
       # 5️⃣ Lint check
       - name: Lint check

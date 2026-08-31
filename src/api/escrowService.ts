@@ -1,11 +1,11 @@
+import { apiClient } from "../lib/api-client";
 import type { SettlementSummary } from "../types/escrow";
-import { ApiError } from "../lib/api-errors";
+
 
 /**
  * escrowService
  *
- * Placeholder escrow API calls.
- * TODO: replace stub bodies with real HTTP calls via the api-client.
+ * Real escrow API calls via the api-client.
  */
 export const escrowService = {
   async retrySettlement(escrowId: string): Promise<void> {

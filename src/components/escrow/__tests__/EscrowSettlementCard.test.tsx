@@ -28,6 +28,9 @@ describe("EscrowSettlementCard", () => {
       data: {
         status: "FUNDED",
         balance: "100.50",
+        signatures: [],
+        required_approvals: 2,
+        escrow_account_id: "test-acc",
       },
       isLoading: false,
       isError: false,
@@ -45,6 +48,9 @@ describe("EscrowSettlementCard", () => {
       data: {
         status: "SETTLED",
         balance: "0.00",
+        signatures: [],
+        required_approvals: 2,
+        escrow_account_id: "test-acc",
       },
       isLoading: false,
       isError: false,
