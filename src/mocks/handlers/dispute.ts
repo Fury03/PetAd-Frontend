@@ -376,6 +376,44 @@ const DISPUTE_DETAIL_MOCKS: Record<string, DisputeDetailMock> = {
 			},
 		],
 	},
+	"dispute-resolved": {
+		id: "dispute-resolved",
+		raisedBy: { name: "Alice Smith", role: "ADOPTER" },
+		reason: "Health condition mismatch",
+		status: "RESOLVED",
+		slaStatus: "ON_TIME",
+		escrow: { status: "RELEASED", accountId: "GDRS77ACCOUNT12345" },
+		evidence: [
+			{
+				id: "ev-r-1",
+				fileName: "vet-report.pdf",
+				url: "/mock-files/vet-report-ev001.pdf",
+				sha256: "resolved-evidence-sha256",
+			},
+		],
+		resolution: { txHash: "txhash-resolved-123456" },
+		description: "Pet's health condition was not accurately described in the listing.",
+		comments: [],
+	},
+	"dispute-open": {
+		id: "dispute-open",
+		raisedBy: { name: "Bob Johnson", role: "ADOPTER" },
+		reason: "Delayed handover",
+		status: "OPEN",
+		slaStatus: "AT_RISK",
+		escrow: { status: "LOCKED", accountId: "GABC88ACCOUNT67890" },
+		evidence: [
+			{
+				id: "ev-o-1",
+				fileName: "handover-chat.png",
+				url: "/mock-files/handover-chat.png",
+				sha256: "open-evidence-sha256",
+			},
+		],
+		resolution: null,
+		description: "Shelter did not physically hand over the pet at the agreed time.",
+		comments: [],
+	},
 };
 
 // ─── Helpers ──────────────────────────────────────────────────────────────────
